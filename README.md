@@ -17,6 +17,14 @@ Start the project by building a main content element using the following steps:
 
     - Hint: Assign a string that uses the CSS `var()` function like this: `var(--main-bg)`.
 
-3. Set the content `ofmainEl` to `<h1>DOM Manipulation</h1>`. There are a variety of ways to do this; pick whichever one that you think works best in this situation.
+3. Set the content of `mainEl` to `<h1>DOM Manipulation</h1>`. There are a variety of ways to do this; pick whichever one that you think works best in this situation.
 4. Add a class of `flex-ctr` to `mainEl`.
     - Hint: Use the `Element.classList` API.
+
+
+## Questions
+
+1. How do I make the `import` statement work?
+1. How do I make the `import` statement work reliably?
+1. Is importing the css to the js file the only way to access the info?
+    1. Why can't the js see the css if the css has been linked as normal?
