@@ -126,14 +126,21 @@ function handlerTopMenuClick(e) {
   if (e.target.tagName != "A") {
     return;
   }
-  console.debug("click detected, targeting " + e.target.textContent);
 
+  // debugger;
+  subMenuEl.style.top = 0;
   for (let node of topMenuLinks) {
-    if (node === e.target) {
-      console.debug(`node ${node} is the target. Toggle 'active' class.`);
-      node.classList.toggle("active");
+    console.count("DEBUG > handlerTopMenuClick > inner loop");
+    if (node == e.target && !node.classList.contains("active")) {
+      console.debug(`activating menu bar item ${node.textContent}`)
+      node.classList.add("active");
+      if (node.attributes.href.value
+        == '#') {
+        console.debug(`activating submenu`)
+        subMenuEl.style.top = '100%';
+      }
     } else {
-      console.debug(`node ${node} is not the target. Remove 'active' class.`);
+      console.debug(`deactivating menu bar item ${node.textContent}`)
       node.classList.remove("active");
     };
   };
