@@ -1,3 +1,22 @@
+// import "./styles.css";
+// ???
+// Well, THIS doesn't work.
+// Best I can figure is this is some misplaced remnant of Next.js or SASS or something.
+// It shouldn't be here without explanation. Or we shouldn't be told we can develop
+// locally and not worry about that hella jank Sandbox.
+let cssLink = document.createElement('link')
+cssLink.setAttribute('rel', 'stylesheet');
+cssLink.setAttribute('href', 'src/styles.css');
+document.getElementsByTagName('head')[0].appendChild(cssLink);
+// <link rel="stylesheet" href="src/styles.css">
+
+
+
+// Turns out, there are a bunch of output tools that are better than console.log(). And I'm livid about it.
+console.count("executing src/index.js"); // This should only ever be 1!!
+
+console.groupCollapsed("Initialization");
+
 // Menu data structure
 var menuLinks = [
   { text: "about", href: "/about" },
@@ -28,52 +47,49 @@ var menuLinks = [
     ],
   },
 ];
-
-try {
-  "do anything else at all";
-} catch (SyntaxError) {
-  console.error("This never works. Find another way.");
-  console.error(e);
-// } catch (e) {
-  // console.debug('look it up');
-} finally {
-  console.debug('Well, keep going, you piece of shit.');
-}
+console.log("menuLinks", menuLinks);
 
 // Part 1-1
+console.log("Part 1-1");
 const mainEl = document.querySelector("main");
 mainEl.style.backgroundColor = "var(--main-bg)";
 let newNode = document.createElement("h1");
 newNode.textContent = "DOM Manipulation";
 mainEl.appendChild(newNode);
 mainEl.classList.add("flex-ctr");
+console.dir(mainEl);
 
 //Part 1-2
+console.log("Part 1-2");
 let topMenuEl = document.getElementById("top-menu");
 topMenuEl.style.height = "100%";
 topMenuEl.style.backgroundColor = "var(--top-menu-bg)";
 topMenuEl.classList.add("flex-around");
+console.dir(topMenuEl); // topMenuEl
 
 // Part 1-3
+console.log("Part 1-3");
 for (let link of menuLinks) {
   let newLink = document.createElement("a");
   newLink.setAttribute("href", link.href);
   newLink.textContent = link.text;
   topMenuEl.appendChild(newLink);
 }
+console.dir(topMenuEl);
 
 //Part 2-3
+console.log("Part 2-3");
 let subMenuEl = document.getElementById("sub-menu");
 subMenuEl.style.height = "100%";
 subMenuEl.style.backgroundColor = "var(--sub-menu-bg)";
 subMenuEl.classList.add("flex-around");
 subMenuEl.style.position = "absolute";
 subMenuEl.style.top = "0";
+console.dir(subMenuEl);
 
 // Part 2-4
-
+console.log("Part 2-4-a: set up topMenuLinks");
 let topMenuLinks = document.querySelectorAll("#top-menu a");
-console.log(`"topMenuLinks" populated. length=${topMenuLinks.length}`);
 console.dir(topMenuLinks);
 
 // apPARently, I shouldn't use "anonymous functions" as "callback functions"
@@ -89,56 +105,37 @@ console.dir(topMenuLinks);
 // ...
 // Actually, that article was from 2013. The current documentation indicates it's NBD.
 // const handlerTopMenuClick = (e) => {
-function handlerTopMenuClick(e) {
-  console.log("DEBUG > handlerTopMenuClick fired");
-  console.dir(e);
-  // console.log("DEBUG > e");
-  // console.log(e);
-  // console.log("DEBUG > e.target");
-  // console.log(e.target);
-  // console.log(e.target.tagName);
-  // console.log(e.target.textContent);
 
+console.log("Part 2-4-b: set up event listener and event handler for top nav click");
+topMenuEl.addEventListener("click", handlerTopMenuClick);
+
+console.log("Part 2-4-c: manage menu items' \"active\" states");
+// within handler
+console.log("Part 2-5: submenu interaction");
+// within handler
+
+
+
+
+console.groupEnd();
+
+function handlerTopMenuClick(e) {
+  console.group("Top Nav click handling");
   e.preventDefault();
 
-  // without this, preventDefault stays in effect.
-  // If I reload the page, all my earlier instructions are run again.
-  // I either have to stop it here, or put in extra plumbing above
-  // making the setup instructions idempotent
-  // e.stopPropagation();
   if (e.target.tagName != "A") {
     return;
   }
-  console.log("detected click, targeting: " + e.target.textContent);
-  debugger;
-  for (let node in topMenuEl) {
-    console.log("executing loop");
-    try {
-      console.log(topMenuEl[node]);
-      // console.log(node);
-      // console.log(`node.title: ${node.title}`);
-      // console.log(`node.name: ${node.name}`);
-    } catch (e) {
-      console.log("caught error");
-    }
-    //console.log(e.target);
-    //if (!node) {
-    //  console.log("Node is false. Wait, how is this false?");
-    //  continue;
-    //  // } else if (node == chobitsuEvents) {
-    //  // console.log("Node is chobitsuEvents. ...Why?");
-    //  // continue;
-    //} else if (node == "chobitsuEvents") {
-    //  console.log("Node is 'chobitsuEvents'. This is not getting any clearer.");
-    //  continue;
-    //} else if (node == e.target) {
-    //  console.log(`node ${node} is the target. Toggle 'active' class.`);
-    //  node.classList.toggle("active");
-    //} else {
-    //  console.log(`node ${node} is not the target. Remove 'active' class.`);
-    //  node.classList.remove("active");
-    //}
-  }
-}
+  console.debug("click detected, targeting " + e.target.textContent);
 
-topMenuEl.addEventListener("click", handlerTopMenuClick);
+  for (let node of topMenuLinks) {
+    if (node === e.target) {
+      console.debug(`node ${node} is the target. Toggle 'active' class.`);
+      node.classList.toggle("active");
+    } else {
+      console.debug(`node ${node} is not the target. Remove 'active' class.`);
+      node.classList.remove("active");
+    };
+  };
+};
+
