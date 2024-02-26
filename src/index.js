@@ -1,32 +1,32 @@
 // Menu data structure
 var menuLinks = [
-    { text: "about", href: "/about" },
-    {
-        text: "catalog",
-        href: "#",
-        subLinks: [
-            { text: "all", href: "/catalog/all" },
-            { text: "top selling", href: "/catalog/top" },
-            { text: "search", href: "/catalog/search" },
-        ],
-    },
-    {
-        text: "orders",
-        href: "#",
-        subLinks: [
-            { text: "new", href: "/orders/new" },
-            { text: "pending", href: "/orders/pending" },
-            { text: "history", href: "/orders/history" },
-        ],
-    },
-    {
-        text: "account",
-        href: "#",
-        subLinks: [
-            { text: "profile", href: "/account/profile" },
-            { text: "sign out", href: "/account/signout" },
-        ],
-    },
+  { text: "about", href: "/about" },
+  {
+    text: "catalog",
+    href: "#",
+    subLinks: [
+      { text: "all", href: "/catalog/all" },
+      { text: "top selling", href: "/catalog/top" },
+      { text: "search", href: "/catalog/search" },
+    ],
+  },
+  {
+    text: "orders",
+    href: "#",
+    subLinks: [
+      { text: "new", href: "/orders/new" },
+      { text: "pending", href: "/orders/pending" },
+      { text: "history", href: "/orders/history" },
+    ],
+  },
+  {
+    text: "account",
+    href: "#",
+    subLinks: [
+      { text: "profile", href: "/account/profile" },
+      { text: "sign out", href: "/account/signout" },
+    ],
+  },
 ];
 
 import "./styles.css";
@@ -47,10 +47,10 @@ topMenuEl.classList.add("flex-around");
 
 // Part 1-3
 for (let link of menuLinks) {
-    let newLink = document.createElement("a");
-    newLink.setAttribute("href", link.href);
-    newLink.textContent = link.text;
-    topMenuEl.appendChild(newLink);
+  let newLink = document.createElement("a");
+  newLink.setAttribute("href", link.href);
+  newLink.textContent = link.text;
+  topMenuEl.appendChild(newLink);
 }
 
 //Part 2-3
@@ -62,13 +62,18 @@ subMenuEl.style.position = "absolute";
 subMenuEl.style.top = "0";
 
 // Part 2-4
-let topMenuLinks = document.querySelectorAll("#top-menu a");
+if (typeof topMenuLinks === "undefined" || topMenuLinks === null) {
+  let topMenuLinks = document.querySelectorAll("#top-menu a");
+}
+console.log(`"topMenuLinks" populated. length=${topMenuLinks.length}`);
+console.dir(topMenuLinks);
+
 // apPARently, I shouldn't use "anonymous functions" as "callback functions"
 // because the handlers can't be removed "safely" or maybe "at all"
 // so they will "create memory leaks"
 // and the apps will "slow to a crawl" or "crash"
 // especially with "long-running" web apps
-// (and in this age of "tab proliferation", every web app should "expect" to be "long-running")
+// (and in this age of "tab proliferation", "every" web app should "expect" to be "long-running")
 // and the "users" will be "angry"
 // and then I'll be "unemployed" "again"
 // and be forced to "learn" to "use" "quotation marks"
@@ -77,25 +82,55 @@ let topMenuLinks = document.querySelectorAll("#top-menu a");
 // Actually, that article was from 2013. The current documentation indicates it's NBD.
 // const handlerTopMenuClick = (e) => {
 function handlerTopMenuClick(e) {
-    console.log("DEBUG > handlerTopMenuClick fired");
-    console.log("DEBUG > JSON.stringify(e)"); // I don't know what it looks like
-    console.log(JSON.stringify(e)); // I don't know what it looks like
-    console.log("DEBUG > e.target");
-    console.log(e.target);
-    // console.log(e.target.tagName);
-    // console.log(e.target.textContent);
+  console.log("DEBUG > handlerTopMenuClick fired");
+  console.dir(e);
+  // console.log("DEBUG > e");
+  // console.log(e);
+  // console.log("DEBUG > e.target");
+  // console.log(e.target);
+  // console.log(e.target.tagName);
+  // console.log(e.target.textContent);
 
-    // without this, preventDefault stays in effect.
-    // If I reload the page, all my earlier instructions are run again.
-    // I either have to stop it here, or put in extra plumbing above
-    // making the setup instructions idempotent
-    e.preventDefault();
-    e.stopPropagation();  
-    if (e.target.tagName != "A") {
-        return;
+  e.preventDefault();
+
+  // without this, preventDefault stays in effect.
+  // If I reload the page, all my earlier instructions are run again.
+  // I either have to stop it here, or put in extra plumbing above
+  // making the setup instructions idempotent
+  // e.stopPropagation();
+  if (e.target.tagName != "A") {
+    return;
+  }
+  console.log("detected click, targeting: " + e.target.textContent);
+
+  for (let node in topMenuEl) {
+    console.log("executing loop");
+    try {
+      console.log(topMenuEl[node]);
+      // console.log(node);
+      // console.log(`node.title: ${node.title}`);
+      // console.log(`node.name: ${node.name}`);
+    } catch (e) {
+      console.log("caught error");
     }
-
-    return e.target.textContent;
+    //console.log(e.target);
+    //if (!node) {
+    //  console.log("Node is false. Wait, how is this false?");
+    //  continue;
+    //  // } else if (node == chobitsuEvents) {
+    //  // console.log("Node is chobitsuEvents. ...Why?");
+    //  // continue;
+    //} else if (node == "chobitsuEvents") {
+    //  console.log("Node is 'chobitsuEvents'. This is not getting any clearer.");
+    //  continue;
+    //} else if (node == e.target) {
+    //  console.log(`node ${node} is the target. Toggle 'active' class.`);
+    //  node.classList.toggle("active");
+    //} else {
+    //  console.log(`node ${node} is not the target. Remove 'active' class.`);
+    //  node.classList.remove("active");
+    //}
+  }
 }
 
 topMenuEl.addEventListener("click", handlerTopMenuClick);
