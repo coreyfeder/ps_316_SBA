@@ -136,7 +136,8 @@ function handlerTopMenuClick(e) {
         // search the menu data structure for the right submenu
         for (let menuItem of menuLinks) {
           if (menuItem.text == node.textContent) {
-            
+
+            // CONTINUE HERE
 
           }
         }
