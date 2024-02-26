@@ -29,7 +29,16 @@ var menuLinks = [
   },
 ];
 
-import "./styles.css";
+try {
+  "do anything else at all";
+} catch (SyntaxError) {
+  console.error("This never works. Find another way.");
+  console.error(e);
+// } catch (e) {
+  // console.debug('look it up');
+} finally {
+  console.debug('Well, keep going, you piece of shit.');
+}
 
 // Part 1-1
 const mainEl = document.querySelector("main");
@@ -62,9 +71,8 @@ subMenuEl.style.position = "absolute";
 subMenuEl.style.top = "0";
 
 // Part 2-4
-if (typeof topMenuLinks === "undefined" || topMenuLinks === null) {
-  let topMenuLinks = document.querySelectorAll("#top-menu a");
-}
+
+let topMenuLinks = document.querySelectorAll("#top-menu a");
 console.log(`"topMenuLinks" populated. length=${topMenuLinks.length}`);
 console.dir(topMenuLinks);
 
@@ -102,7 +110,7 @@ function handlerTopMenuClick(e) {
     return;
   }
   console.log("detected click, targeting: " + e.target.textContent);
-
+  debugger;
   for (let node in topMenuEl) {
     console.log("executing loop");
     try {
