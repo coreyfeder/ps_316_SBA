@@ -16,11 +16,11 @@ cssLink.setAttribute('rel', 'stylesheet');
 cssLink.setAttribute('href', 'src/styles.css');
 document.getElementsByTagName('head')[0].appendChild(cssLink);
 
+
 /* 
 Holy crap. Turns out, there are a bunch of output tools besides `console.log()`. Logging at different levels, grouping, built-in counters, and ... OFFS WHY DIDN'T ANYONE TELL US ABOUT `debugger`??
  */
-
-console.groupCollapsed("Initialization");
+// console.groupCollapsed("Initialization");
 
 // Menu data structure
 //   (Let's consider this the source data. Don't rearrange or rename anything.)
@@ -71,11 +71,28 @@ topMenuEl.classList.add("flex-around");
 
 // Part 1-3
 for (let link of menuLinks) {
+  // top-level nav links
   let newLink = document.createElement("a");
   newLink.setAttribute("href", link.href);
   newLink.textContent = link.text;
   topMenuEl.appendChild(newLink);
-}
+  // sub-menu nav links
+  if (link.subLinks) {
+    // add as anchors and set to hidden
+    // if it causes troubles, add them under a <details> node?
+    for (let subLink of link["subLinks"]) {
+      let newSubLink = document.createElement("a");
+      newSubLink.setAttribute("href", subLink.href);
+      newSubLink.textContent = subLink.text;
+      newLink.appendChild(newSubLink);
+    };
+  };
+};
+
+// but we don't want them visible until they're in the submenu.
+let submenuStorage = document.createElement("style");
+submenuStorage.textContent = '#top-menu a a { display: none; }';
+document.querySelector("head").appendChild(submenuStorage);
 
 //Part 2-3
 let subMenuEl = document.getElementById("sub-menu");
@@ -104,7 +121,7 @@ let topMenuLinks = document.querySelectorAll("#top-menu a");
 
 topMenuEl.addEventListener("click", handlerTopMenuClick);
 
-console.groupEnd();
+// console.groupEnd();
 
 
 function handlerTopMenuClick(e) {
@@ -139,12 +156,14 @@ function handlerTopMenuClick(e) {
 
             // CONTINUE HERE
 
+            break;
           }
         }
         // console.debug(`populating submenu`)
         // if replace doesn't work: Array.from(subMenuEl.children).forEach((link) => link.remove());
         subMenuEl.replaceChildren(
-          buildSubmenu(node.attributes.subLinks)
+          buildSubmenu(node.getAttribute["subLinks"])
+          // now going to do something like buildSubmenu(node.children) ?
         );
         subMenuEl.style.top = '100%';
       }
@@ -162,6 +181,25 @@ function buildSubmenu(subLinks) {
   // representing the sublinks for the menu being exposed
   // adds them to...TBD?
   // rebuilds each time the submenu changes
+  const newSubmenu = [];
+  for (let link of subLinks) {
+    let newLink = document.createElement('a');
+    newLink.setAttribute("href", link.href);
+    newLink.textContent = link.text;
+    newSubmenu.appendChild(newLink);
+  };
+  subMenuEl.replaceChildren(newSubmenu);
+  console.dir(subMenuEl);
+}
+
+function deactivateSubmenu() {
+  let activeMenu = document.querySelector("#top-menu a.active");
+  let subMenu = document.getElementById("sub-menu");
+  console.assert(activeMenu.children.length == 0, "Can I deactivate an empty submenu?");
+  activeMenu.replaceChildren(subMenu);
+}
+
+function activateSubmenu(menuItem) {
   const newSubmenu = [];
   for (let link of subLinks) {
     let newLink = document.createElement('a');
