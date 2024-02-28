@@ -124,7 +124,6 @@ topMenuEl.addEventListener("click", handlerTopMenuClick);
 
 function moveChildLinks(childrenFrom, childrenTo) {
   // Returns true if any child elements were moved.
-  console.debug(`Moving subMenu items from ${childrenFrom} tp ${childrenTo}`)
   let result = false;
   console.assert(childrenTo.children.length == 0, "This primary navigation item already has its secondary links.");
   while (childrenFrom.firstElementChild != null) {
@@ -137,7 +136,6 @@ function moveChildLinks(childrenFrom, childrenTo) {
 
 function hasSubMenu(navNode) {
   // navNode.getAttribute('href') != navNode.href  ...are you f'n kidding me?
-  console.log(`hasSubMenu > ${navNode.textContent}: ${navNode.getAttribute('href')} `)
   return navNode.getAttribute('href') == '#';
 }
 
