@@ -17,13 +17,6 @@ cssLink.setAttribute('href', 'src/styles.css');
 document.getElementsByTagName('head')[0].appendChild(cssLink);
 
 
-const checkActives = () => {
-  let actives = document.getElementsByClassName('active');
-  let activesTexts = Array.from(actives).map((el) => el.value);
-  console.log(`Actives: ${actives.length}: ${activesTexts} `);
-}
-
-
 /* 
 Holy crap. Turns out, there are a bunch of output tools besides `console.log()`. Logging at different levels, grouping, built-in counters, and ... OFFS WHY DIDN'T ANYONE TELL US ABOUT `debugger`??
  */
@@ -128,13 +121,8 @@ let topMenuLinks = document.querySelectorAll("#top-menu a");
 
 topMenuEl.addEventListener("click", handlerTopMenuClick);
 
-// console.groupEnd();
-
 
 function moveChildLinks(childrenFrom, childrenTo) {
-  console.group('moveChildLinks');
-  checkActives();
-
   // Returns true if any child elements were moved.
   console.debug(`Moving subMenu items from ${childrenFrom} tp ${childrenTo}`)
   let result = false;
@@ -143,11 +131,9 @@ function moveChildLinks(childrenFrom, childrenTo) {
     childrenTo.appendChild(childrenFrom.firstElementChild);
     result = true;
   }
-  checkActives();
-  console.groupEnd();
-
   return result;
 }
+
 
 function hasSubMenu(navNode) {
   // navNode.getAttribute('href') != navNode.href  ...are you f'n kidding me?
@@ -155,21 +141,14 @@ function hasSubMenu(navNode) {
   return navNode.getAttribute('href') == '#';
 }
 
-function handlerTopMenuClick(e) {
-  console.group('handlerTopMenuClick');
-  checkActives();
 
+function handlerTopMenuClick(e) {
   // when we sense a click in the upper nav, do stuff.
-  // console.group("Handling top-level nav clicks");
 
   // prevent default behavior: in this case... don't go reloading the page?
   e.preventDefault();
 
   if (e.target.tagName != "A") return;  // ignore clicks in the nav bar's dead space
-
-  console.log('Starting `handlerTopMenuClick`; who is active right now?');
-  let activeNode = document.querySelector("#top-menu a.active");
-  console.log(Boolean(activeNode) ? activeNode.textContent : "Nobody!");
 
   // hide and empty the secondary nav bar straight away
   //   doing this for everything simplifies the logic below, but it's lazy.
@@ -193,59 +172,8 @@ function handlerTopMenuClick(e) {
         subMenuEl.style.top = '100%';
       }
     } else {
-      // console.debug(`deactivating menu bar item ${node.textContent}`)
       node.classList.remove("active");
     };
   };
-  checkActives();
-  console.groupEnd();
 };
-
-/* function buildSubmenu(subLinks) {
-  // receives an array of dict-like objects
-  // representing the sublinks for the menu being exposed
-  // adds them to...TBD?
-  // rebuilds each time the submenu changes
-  const newSubmenu = [];
-  for (let link of subLinks) {
-    let newLink = document.createElement('a');
-    newLink.setAttribute("href", link.href);
-    newLink.textContent = link.text;
-    newSubmenu.appendChild(newLink);
-  };
-  subMenuEl.replaceChildren(newSubmenu);
-  console.dir(subMenuEl);
-}
-
-function deactivateSubmenu() {
-  let activeMenu = document.querySelector("#top-menu a.active");
-  let subMenu = document.getElementById("sub-menu");
-  console.assert(activeMenu.children.length == 0, "Can I deactivate an empty submenu?");
-  activeMenu.replaceChildren(subMenu);
-}
-
-function activateSubmenu(menuItem) {
-  const newSubmenu = [];
-  for (let link of subLinks) {
-    let newLink = document.createElement('a');
-    newLink.setAttribute("href", link.href);
-    newLink.textContent = link.text;
-    newSubmenu.appendChild(newLink);
-  };
-  subMenuEl.replaceChildren(newSubmenu);
-  console.dir(subMenuEl);
-}
- */
-/* 
-The submenu needs to be dynamic based on the clicked link. To facilitate that.
-function buildSubmenu(subLinks)
-* Clear the current contents of subMenuEl.
-* Iterate over subLinks; for each "link" object:
-  * Create an <a> element.
-  * Add an href attribute, set to link.href
-  * set the element's content to link.text
-  * Append the new element to the subMenuEl.
-Add it to the event listener. within the same logic that shows the submenu, remembering to pass the array of sub-links as an argument.
- */
-
 
