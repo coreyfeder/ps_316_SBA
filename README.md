@@ -35,8 +35,8 @@ Create a small web application. Topic and contents are open-ended and unimportan
 
 > "You're starting with the lab! This starts with a direct copy of your work from R-ALAB 316.3.1!"
 
-Yes, I am! And yes, it does! It's still fresh in my mind and fingertips. 
+Yes, I am! And yes, it does! It's still fresh in my mind and fingertips. The lab assignment hasn't even been graded yet, so I must be extremely confident of its quality. (No, I'm not; but like every other show of confidence necessary in job hunting, I'm trying hard to fake it!) But most importantly, it is, as noted, my own work.
 
 Like many back-end thinkers, I find making design decisions to be truly torturous; it reliably takes far more time and causes far more distress than the skills purportedly being tested. I will of course push pixels as required, but I much prefer pushing bits.
 
-And as noted, it's my own work. We're often being told to work smarter, not harder; and we're often told that engineers are lazy. Check and check.
+We're often being told to work smarter, not harder; and we're often told that engineers are lazy. Check and check.
