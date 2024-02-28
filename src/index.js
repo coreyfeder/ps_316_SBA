@@ -1,7 +1,7 @@
-// import "./styles.css";
-
-// ...welp, that didn't work. And I'm failing to make it work.
-// So, I'm sticking it back where it wants to be.
+// My gods, the html file isn't even linked to any CSS?!
+// This was part of the lab, and it was so frustrating
+// looking for a workaround that I just want to leave 
+// this here. Consider it a very, _very_ awkward flex.?
 let cssLink = document.createElement('link')
 cssLink.setAttribute('rel', 'stylesheet');
 cssLink.setAttribute('href', 'src/styles.css');
@@ -13,21 +13,22 @@ document.getElementsByTagName('head')[0].appendChild(cssLink);
 const menuLinks = [
   { text: "about", href: "/about" },
   {
-    text: "catalog",
+    text: "projects",
     href: "#",
     subLinks: [
-      { text: "all", href: "/catalog/all" },
-      { text: "top selling", href: "/catalog/top" },
-      { text: "search", href: "/catalog/search" },
+      { text: "Micro-Pokedex", href: "/projects/pokedex" },
+      { text: "this", href: "/" },
+      { text: "future projects", href: "/projects/future" },
     ],
   },
   {
-    text: "orders",
+    text: "commissions",
     href: "#",
     subLinks: [
-      { text: "new", href: "/orders/new" },
-      { text: "pending", href: "/orders/pending" },
-      { text: "history", href: "/orders/history" },
+      { text: "new proposal", href: "/orders/new" },
+      { text: "in process", href: "/orders/inprocess" },
+      { text: "previous", href: "/orders/previous" },
+      { text: "tips", href: "/orders/tips" },
     ],
   },
   {
@@ -41,19 +42,23 @@ const menuLinks = [
 ];
 
 
+const defaultMessage = ";"
 const mainEl = document.querySelector("main");
 const topMenuEl = document.getElementById("top-menu");
 const subMenuEl = document.getElementById("sub-menu");
 const topMenuLinks = document.querySelectorAll("#top-menu a");
 
 
-// init
+// Initialization
 ( () => {
+  // This anonymous function will keeps any temporary variables used
+  // out of scope for the rest of the script. #tidynamespace
+
   let newNode;
   
   mainEl.style.backgroundColor = "var(--main-bg)";
   newNode = document.createElement("h1");
-  newNode.textContent = "DOM Manipulation";
+  newNode.textContent = defaultMessage;
   mainEl.appendChild(newNode);
   mainEl.classList.add("flex-ctr");
 
@@ -182,14 +187,14 @@ function startupNav(navNode) {
 function displayMessage(message) {
   let newText;
   if (!message) {
-    newText = "DOM Manipulation";
+    newText = defaultMessage;
   } else if (typeof message == 'string' ) {
     newText = message;
   } else if (typeof message == 'object' ) {
     try {
       newText = message.innerText || message.textContent || message.toString();
     } catch (e) {
-      newText = "DOM Manipulation";
+      newText = defaultMessage;
     };
   };
   document.querySelector('main > h1').textContent = newText;
