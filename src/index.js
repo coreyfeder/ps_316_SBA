@@ -88,9 +88,6 @@ const topMenuLinks = document.querySelectorAll("#top-menu a");
   submenuStorage.textContent = '#top-menu a a { display: none; }';
   document.querySelector("head").appendChild(submenuStorage);
 
-  topMenuEl.addEventListener("click", handlerTopMenuClick);
-  subMenuEl.addEventListener("click", handlerSubMenuClick);
-
 })();  
 
 
@@ -182,20 +179,35 @@ function startupNav(navNode) {
   }
 }
 
+function displayMessage(message) {
+  let newText;
+  if (!message) {
+    newText = "DOM Manipulation";
+  } else if (typeof message == 'string' ) {
+    newText = message;
+  } else if (typeof message == 'object' ) {
+    try {
+      newText = message.innerText || message.textContent || message.toString();
+    } catch (e) {
+      newText = "DOM Manipulation";
+    };
+  };
+  document.querySelector('main > h1').textContent = newText;
+};
+
 function handlerTopMenuClick(e) {
   // handle clicks in the primary nav bar
   e.preventDefault();
   if (e.target.tagName != "A") return;  // ignore clicks in the nav bar's dead space
   console.log(e.target.innerText);
 
-  debugger;
   let nextActiveNode = isActive(e.target) ? null : e.target;
   shutdownNav();
   startupNav(nextActiveNode);
 
-  if (!hasSubmenu(nextActiveNode)) {
-    document.querySelector('main > h1').textContent = e.target.innerText;
-  }
+  if (nextActiveNode && !hasSubmenu(nextActiveNode)) {
+    displayMessage(nextActiveNode.innerText);
+  };
 };
 
 function handlerSubMenuClick(e) {
@@ -203,5 +215,9 @@ function handlerSubMenuClick(e) {
   if (e.target.tagName != "A") return;  // ignore clicks in the nav bar's dead space
   console.log(e.target.innerText);
   document.querySelector('main > h1').textContent = e.target.innerText;
-  closeMenu();
+  shutdownNav();
 }
+
+
+topMenuEl.addEventListener("click", handlerTopMenuClick);
+subMenuEl.addEventListener("click", handlerSubMenuClick);
