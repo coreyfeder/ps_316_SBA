@@ -16,11 +16,15 @@ cssLink.setAttribute('rel', 'stylesheet');
 cssLink.setAttribute('href', 'src/styles.css');
 document.getElementsByTagName('head')[0].appendChild(cssLink);
 
+/*
+Also, we have already created and destroyed nodes. For the submenu, I'm creating the nodes beforehand, and having them hang about as hidden children of the top-level nav nodes. Then, when it's time to activate or deactivate them, I'll move the nodes.
+
+I don't know the overhead of moving nodes versus changing their makeup, but I expect moving structural DOM around is much worse, so I wouldn't do this in a live environment. I just hate searching for things in lists. Traverse, compare, break when you find it. Then build another of a thing we already have. Moving nodes about is much more interesting and challenging.
+ */
 
 /* 
 Holy crap. Turns out, there are a bunch of output tools besides `console.log()`. Logging at different levels, grouping, built-in counters, and ... OFFS WHY DIDN'T ANYONE TELL US ABOUT `debugger`??
  */
-// console.groupCollapsed("Initialization");
 
 // Menu data structure
 //   (Let's consider this the source data. Don't rearrange or rename anything.)
@@ -53,7 +57,6 @@ const menuLinks = [
     ],
   },
 ];
-// console.log("menuLinks", menuLinks);
 
 // Part 1-1
 const mainEl = document.querySelector("main");
@@ -120,6 +123,7 @@ let topMenuLinks = document.querySelectorAll("#top-menu a");
 // const handlerTopMenuClick = (e) => {
 
 topMenuEl.addEventListener("click", handlerTopMenuClick);
+subMenuEl.addEventListener("click", handlerSubMenuClick);
 
 
 function moveChildLinks(childrenFrom, childrenTo) {
@@ -140,23 +144,25 @@ function hasSubMenu(navNode) {
 }
 
 
-function handlerTopMenuClick(e) {
-  // when we sense a click in the upper nav, do stuff.
-
-  // prevent default behavior: in this case... don't go reloading the page?
-  e.preventDefault();
-
-  if (e.target.tagName != "A") return;  // ignore clicks in the nav bar's dead space
-
-  // hide and empty the secondary nav bar straight away
-  //   doing this for everything simplifies the logic below, but it's lazy.
+function closeMenu() {
   if (subMenuEl.style.top != "0px") {
     subMenuEl.style.top = 0;
-    console.assert(true == 
-      moveChildLinks(subMenuEl, document.querySelector("#top-menu a.active")),
-      "Why was the submenu open if no items were removed?"
-      )
   };
+  let activeEl = document.querySelector("#top-menu a.active");
+  if (activeEl) {
+    moveChildLinks(subMenuEl, activeEl);
+    activeEl.classList.remove('active');
+  }
+}
+
+
+function handlerTopMenuClick(e) {
+  // handle clicks in the primary nav bar
+  e.preventDefault();
+  if (e.target.tagName != "A") return;  // ignore clicks in the nav bar's dead space
+  console.log(e.target.innerText);
+
+  closeMenu();  // hide and empty the secondary nav bar straight away
 
   // walk through all the top menu items, not just the one clicked on; a click
   // on one item will affect the others.
@@ -173,5 +179,16 @@ function handlerTopMenuClick(e) {
       node.classList.remove("active");
     };
   };
+
+  if (!hasSubMenu(e.target)) {
+    document.querySelector('main > h1').textContent = e.target.innerText;
+  }
 };
 
+function handlerSubMenuClick(e) {
+  e.preventDefault();
+  if (e.target.tagName != "A") return;  // ignore clicks in the nav bar's dead space
+  console.log(e.target.innerText);
+  document.querySelector('main > h1').textContent = e.target.innerText;
+  closeMenu();
+}
