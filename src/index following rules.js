@@ -17,13 +17,6 @@ cssLink.setAttribute('href', 'src/styles.css');
 document.getElementsByTagName('head')[0].appendChild(cssLink);
 
 
-const checkActives = () => {
-  let actives = document.getElementsByClassName('active');
-  let activesTexts = Array.from(actives).map((el) => el.value);
-  console.log(`Actives: ${actives.length}: ${activesTexts} `);
-}
-
-
 /* 
 Holy crap. Turns out, there are a bunch of output tools besides `console.log()`. Logging at different levels, grouping, built-in counters, and ... OFFS WHY DIDN'T ANYONE TELL US ABOUT `debugger`??
  */
@@ -83,23 +76,7 @@ for (let link of menuLinks) {
   newLink.setAttribute("href", link.href);
   newLink.textContent = link.text;
   topMenuEl.appendChild(newLink);
-  // sub-menu nav links
-  if (link.subLinks) {
-    // add as anchors and set to hidden
-    // if it causes troubles, add them under a <details> node?
-    for (let subLink of link["subLinks"]) {
-      let newSubLink = document.createElement("a");
-      newSubLink.setAttribute("href", subLink.href);
-      newSubLink.textContent = subLink.text;
-      newLink.appendChild(newSubLink);
-    };
-  };
 };
-
-// but we don't want them visible until they're in the submenu.
-let submenuStorage = document.createElement("style");
-submenuStorage.textContent = '#top-menu a a { display: none; }';
-document.querySelector("head").appendChild(submenuStorage);
 
 //Part 2-3
 let subMenuEl = document.getElementById("sub-menu");
@@ -131,34 +108,7 @@ topMenuEl.addEventListener("click", handlerTopMenuClick);
 // console.groupEnd();
 
 
-function moveChildLinks(childrenFrom, childrenTo) {
-  console.group('moveChildLinks');
-  checkActives();
-
-  // Returns true if any child elements were moved.
-  console.debug(`Moving subMenu items from ${childrenFrom} tp ${childrenTo}`)
-  let result = false;
-  console.assert(childrenTo.children.length == 0, "This primary navigation item already has its secondary links.");
-  while (childrenFrom.firstElementChild != null) {
-    childrenTo.appendChild(childrenFrom.firstElementChild);
-    result = true;
-  }
-  checkActives();
-  console.groupEnd();
-
-  return result;
-}
-
-function hasSubMenu(navNode) {
-  // navNode.getAttribute('href') != navNode.href  ...are you f'n kidding me?
-  console.log(`hasSubMenu > ${navNode.textContent}: ${navNode.getAttribute('href')} `)
-  return navNode.getAttribute('href') == '#';
-}
-
 function handlerTopMenuClick(e) {
-  console.group('handlerTopMenuClick');
-  checkActives();
-
   // when we sense a click in the upper nav, do stuff.
   // console.group("Handling top-level nav clicks");
 
@@ -167,29 +117,35 @@ function handlerTopMenuClick(e) {
 
   if (e.target.tagName != "A") return;  // ignore clicks in the nav bar's dead space
 
-  console.log('Starting `handlerTopMenuClick`; who is active right now?');
-  let activeNode = document.querySelector("#top-menu a.active");
-  console.log(Boolean(activeNode) ? activeNode.textContent : "Nobody!");
-
-  // hide and empty the secondary nav bar straight away
+  // hide the secondary nav bar straight away
   //   doing this for everything simplifies the logic below, but it's lazy.
-  if (subMenuEl.style.top != "0px") {
-    subMenuEl.style.top = 0;
-    console.assert(true == 
-      moveChildLinks(subMenuEl, document.querySelector("#top-menu a.active")),
-      "Why was the submenu open if no items were removed?"
-      )
-  };
-
-  // walk through all the top menu items, not just the one clicked on; a click
-  // on one item will affect the others.
+  //   if this is too slow, it may cause ugly flicker/redraw if we actually
+  //   want to secondary nav bar to stay. test it out.
+  subMenuEl.style.top = 0;
+  // walk through all the top menu items, not just the one clicked on;
+  // a click on one item will affect the others.
   for (let node of topMenuLinks) {
     // desired main nav behavior: at most one item "active" at a time
     // clicking on the active item deactivates it, reverting to initial state.
     if (node == e.target && !node.classList.contains("active")) {
       node.classList.add("active");
-      if (hasSubMenu(node)) {
-        moveChildLinks(node, subMenuEl);
+      if (node.attributes.href.value == '#') {  // menu pointing at '#' have submenus
+        // search the menu data structure for the right submenu
+        for (let menuItem of menuLinks) {
+          if (menuItem.text == node.textContent) {
+            // populate the secondary nav menu
+
+            // CONTINUE HERE
+
+            break;
+          }
+        }
+        // console.debug(`populating submenu`)
+        // if replace doesn't work: Array.from(subMenuEl.children).forEach((link) => link.remove());
+        subMenuEl.replaceChildren(
+          buildSubmenu(node.getAttribute["subLinks"])
+          // now going to do something like buildSubmenu(node.children) ?
+        );
         subMenuEl.style.top = '100%';
       }
     } else {
@@ -197,11 +153,11 @@ function handlerTopMenuClick(e) {
       node.classList.remove("active");
     };
   };
-  checkActives();
-  console.groupEnd();
+
+  // console.groupEnd();
 };
 
-/* function buildSubmenu(subLinks) {
+function buildSubmenu(subLinks) {
   // receives an array of dict-like objects
   // representing the sublinks for the menu being exposed
   // adds them to...TBD?
@@ -235,7 +191,7 @@ function activateSubmenu(menuItem) {
   subMenuEl.replaceChildren(newSubmenu);
   console.dir(subMenuEl);
 }
- */
+
 /* 
 The submenu needs to be dynamic based on the clicked link. To facilitate that.
 function buildSubmenu(subLinks)
