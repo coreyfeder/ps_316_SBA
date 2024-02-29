@@ -42,7 +42,7 @@ const menuLinks = [
 ];
 
 
-const defaultMessage = ";"
+const defaultMessage = "SBA 316";
 const mainEl = document.querySelector("main");
 const topMenuEl = document.getElementById("top-menu");
 const subMenuEl = document.getElementById("sub-menu");
@@ -222,7 +222,6 @@ function handlerSubMenuClick(e) {
   document.querySelector('main > h1').textContent = e.target.innerText;
   shutdownNav();
 }
-
 
 topMenuEl.addEventListener("click", handlerTopMenuClick);
 subMenuEl.addEventListener("click", handlerSubMenuClick);

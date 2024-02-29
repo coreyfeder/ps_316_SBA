@@ -9,14 +9,10 @@
 <body>
 
     <div height="4em">
-        <br>Inserting some space, <em>maybe</em>. Probably not.
-    </div>
-    <div class="imgframe">
-        <img class="monster" src="img/1.png" alt="" />
-        <!-- <img class="beak" src="img/a perfectly normal beak.png" alt="" /> -->
-        <img class="beak" alt="" />
+        <br>Inserting some space, <em>maybe</em>.
     </div>
 
+    <h1>img.monster + div.beak>img</h1>
     <div class="imgframe">
         <img class="monster" src="img/1.png" alt="" />
         <div class="beak">
@@ -24,6 +20,22 @@
         </div>
     </div>
 
-    <script src="dux.js"></script>
+    <h1>img.monster + div>img.beak</h1>
+    <div class="imgframe">
+        <img class="monster" src="img/1.png" alt="" />
+        <div>
+            <img class="beak" alt="" />
+        </div>
+    </div>
+
+    <h1>img.monster + div.beakdiv>img.beakimg</h1>
+    <div class="imgframe">
+        <img class="monster" src="img/1.png" alt="" />
+        <div class="beakdiv">
+            <img class="beakimg" alt="" />
+        </div>
+    </div>
+
+    <script src="dux.js" defer></script>
 </body>
 </html>
