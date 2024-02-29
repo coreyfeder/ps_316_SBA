@@ -4,9 +4,11 @@
 
 /* CSS Custom Properties */
 :root {
-    --main-bg: #4a4e4d;
-    --top-menu-bg: #0e9aa7;
-    --sub-menu-bg: #3da4ab;
+    --primary: rgb(49, 45, 34);
+    --secondary: rgb(219, 214, 173);
+    --tertiary: rgb(117, 112, 89);
+    --accent-dark: rgb(89, 23, 14);
+    --accent-light: rgb(220, 172, 0);
 }
 
 body {
@@ -15,7 +17,7 @@ body {
     margin: 0;
     display: grid;
     grid-template-rows: 3rem auto;
-    color: white;
+    color: var(--secondary);
 }
 
 .flex-ctr {
@@ -35,11 +37,11 @@ nav a {
     padding: 0 1rem;
     text-transform: uppercase;
     text-decoration: none;
-    color: white;
+    color: var(--primary);
 }
 
 #top-menu a:hover {
-    background-color: var(--sub-menu-bg);
+    background-color: var(--tertiary);
 }
 
 header,
@@ -58,10 +60,10 @@ header,
 }
 
 #sub-menu a:hover {
-    background-color: var(--top-menu-bg);
+    background-color: var(--secondary);
 }
 
 nav a.active {
-    background-color: var(--sub-menu-bg);
-    color: var(--main-bg);
+    background-color: var(--tertiary);
+    color: var(--accent);
 }

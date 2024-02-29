@@ -9,16 +9,16 @@ document.getElementsByTagName('head')[0].appendChild(cssLink);
 
 
 // Menu data structure
-//   (Treat this the source data. Don't rearrange or rename anything.)
 const menuLinks = [
   { text: "about", href: "/about" },
   {
     text: "projects",
     href: "#",
     subLinks: [
-      { text: "Micro-Pokedex", href: "/projects/pokedex" },
+      { text: "Pokédux", href: "/projects/pokedux" }, // completely original collectible ducks
+      { text: "Pockédex", href: "/projects/pockedex" }, // completely original chocolate-dipped biscuits
       { text: "this", href: "/" },
-      { text: "future projects", href: "/projects/future" },
+      { text: "future projects", href: "/projects/future" }, // poKendex, BadIdeaBarbie
     ],
   },
   {
@@ -56,18 +56,18 @@ const topMenuLinks = document.querySelectorAll("#top-menu a");
 
   let newNode;
   
-  mainEl.style.backgroundColor = "var(--main-bg)";
+  mainEl.style.backgroundColor = "var(--primary)";
   newNode = document.createElement("h1");
   newNode.textContent = defaultMessage;
   mainEl.appendChild(newNode);
   mainEl.classList.add("flex-ctr");
 
   topMenuEl.style.height = "100%";
-  topMenuEl.style.backgroundColor = "var(--top-menu-bg)";
+  topMenuEl.style.backgroundColor = "var(--secondary)";
   topMenuEl.classList.add("flex-around");
 
   subMenuEl.style.height = "100%";
-  subMenuEl.style.backgroundColor = "var(--sub-menu-bg)";
+  subMenuEl.style.backgroundColor = "var(--tertiary)";
   subMenuEl.classList.add("flex-around");
   subMenuEl.style.position = "absolute";
   subMenuEl.style.top = "0";
