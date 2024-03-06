@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- 
+    Practice mini-Pokedex
+    Using PokéAPI: https://pokeapi.co/
+        GET https://pokeapi.co/api/v2/pokemon/{id or name}/
+    Using Fetch
+ -->
+<html lang="en">
+    <head>
+        <title>Pokédexlette</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="src/style.css" />
+        <script src="src/index.js" defer></script>
+    </head>
+
+    <body>
+
+        <div class="poke-container" id="poke-container">
+            <!-- Why in the name of Mew are we using matching ID and ClassNames? -->
+        </div>
+    
+        <!-- sample -->
+        <div class="pokemon" style="background-color: rgb(222, 253, 224);">
+            <div class="image-container">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="">
+            </div>
+            <div class="info">
+                <span class="number">#000</span>
+                <h3 class="name">SAMPLE</h3>
+                <small class="type">Type <span>anguish</span></small>
+            </div>
+        </div> 
+    </body>
+
+</html>
