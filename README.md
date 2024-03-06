@@ -40,3 +40,7 @@ Yes, I am! And yes, it does! It's still fresh in my mind and fingertips. The lab
 Like many back-end thinkers, I find making design decisions to be truly torturous; it reliably takes far more time and causes far more distress than the skills purportedly being tested. I will of course push pixels as required, but I much prefer pushing bits.
 
 We're often being told to work smarter, not harder; and we're often told that engineers are lazy. Check and check.
+
+## POKÉDUX
+
+I'm also adding the Pokedex we made as one of the pages. But I don't want it do be a direct drop with no changes made, so I have changed the API calls to make paged calls—getting a batch of monster data with a single API call, rather than one at a time. I'm also letting the user decide the page size, rather than having a fixed number, and allowing them to skip to whichever page they want. (This will get me some user inputs to validate; no pages showing -32.5 monsters, no skipping to page "DOG", etc.) And, moost importantly, I'm dynamically superimposing a .png on top of the monster images so that they will all have duck bills. Er...I mean, I'm introducing the world to my completely original collectible duck monsters, handily tracked in this Pokéduxedex! "Pokédux! Gotta collect 'em obsessively until you run out of money!"
